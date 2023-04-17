@@ -60,7 +60,7 @@ contract Crowdfunding {
          );
          require(
             campaign.deadline < block.timestamp,
-            "The dealine has not passed yet."
+            "The deadline has not passed yet."
          );
 
          (bool sent, ) = payable (campaign.owner).call{value: campaign.amountCollected}("");

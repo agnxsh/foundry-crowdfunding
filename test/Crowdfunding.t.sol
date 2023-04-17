@@ -144,30 +144,30 @@ contract CrowdfundingTest is Test{
         assertEq(amountCollected, 100);
     }
 
-    //Testing the withdraw() function when the deadline has not passed yet
-    //This function should revert
-    //We are using vm.expectRevert() to check if the function reverts
-    // function testWithdrawFailBeforeDeadline() public{
-    //     uint256 id = crowdFunding.createCampaign(
-    //         address(bob),
-    //         "Test",
-    //         "Test Description",
-    //         100,
-    //         block.timestamp + 10000,
-    //         "https://i.kym-cdn.com/photos/images/newsfeed/002/205/307/1f7.jpg"
-    //     );
+    // Testing the withdraw() function when the deadline has not passed yet
+    // This function should revert
+    // We are using vm.expectRevert() to check if the function reverts
+    function testWithdrawFailBeforeDeadline() public{
+        uint256 id = crowdFunding.createCampaign(
+            address(bob),
+            "Test",
+            "Test Description",
+            100,
+            block.timestamp + 10000,
+            "https://i.kym-cdn.com/photos/images/newsfeed/002/205/307/1f7.jpg"
+        );
 
-    //     //alice will donate to the campaign
-    //     vm.prank(alice);
-    //     crowdFunding.donateToCampaign{value: 100}(id);
+        //alice will donate to the campaign
+        vm.prank(alice);
+        crowdFunding.donateToCampaign{value: 100}(id);
          
-    //     //bob will try to withdraw the funds before the deadline
-    //     vm.prank(bob);
-    //     //we are now using a cheat code in Foundry to warp the time to 9999 seconds
-    //     //as we have mentioned in our contract that if 10000 seconds have not passed
-    //     //since the block.timestamp then the deadline hasn't passed yet
-    //     vm.warp(block.timestamp + 9999); 
-    //     vm.expectRevert("The deadline has not passed yet");
-    //     crowdFunding.withdraw(id);
-    // }
+        //bob will try to withdraw the funds before the deadline
+        vm.prank(bob);
+        //we are now using a cheat code in Foundry to warp the time to 9999 seconds
+        //as we have mentioned in our contract that if 10000 seconds have not passed
+        //since the block.timestamp then the deadline hasn't passed yet
+        vm.warp(block.timestamp + 9999); 
+        vm.expectRevert("The deadline has not passed yet.");
+        crowdFunding.withdraw(id);
+    }
 }
